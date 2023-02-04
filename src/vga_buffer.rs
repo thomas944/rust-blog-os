@@ -1,3 +1,5 @@
+use core::fmt::{Write, Result};
+
 use volatile::Volatile;
 
 #[allow(dead_code)]
@@ -91,6 +93,13 @@ impl Writer {
   fn new_line(&mut self) {/* TODO */}
 }
 
+impl Write for Writer {
+  fn write_str(&mut self, s: &str) -> Result {
+      self.write_string(s);
+      Ok(())
+  }
+}
+
 pub fn print_something() {
   let mut writer = Writer {
       column_position: 0,
@@ -100,5 +109,5 @@ pub fn print_something() {
 
   writer.write_byte(b'H');
   writer.write_string("ello ");
-  writer.write_string("Wörld!");
+  write!(writer, "The numbers are {} and {}", 42, 1.0/3.0).unwrap();
 }
